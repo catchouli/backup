@@ -1,5 +1,5 @@
 # Databases to back up.
-declare -a DATABASES=("talkhaus")
+declare -a DATABASES=("talkhaus" "talkhaus_wiki")
 
 # Stop on errors.
 set -e
@@ -18,9 +18,10 @@ set +o allexport
 echo "$(date)" > backup-date.txt
 
 # Back up files.
-echo "Backing up files"
+echo "Backing up volumes"
 mkdir -p files
 rsync -av --delete /home/cat/volumes/talkhaus files/volumes
+rsync -av --delete /home/cat/volumes/wiki files/volumes
 
 # Back up each database.
 echo "Backing up databases"
@@ -34,7 +35,7 @@ do
 
     # Back up database to .sql file.
     kubectl exec -it talkhaus-mysql-0 -- mysqldump --lock-tables=false --single-transaction=true \
-	    -ubackup -p$MYSQL_PW "$DBNAME" > "$DBNAME.sql"
+	    -ubackup -p$MYSQL_PASS "$DBNAME" > "$DBNAME.sql"
 
     # Return to previous directory.
     popd >/dev/null
