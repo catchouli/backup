@@ -1,0 +1,8 @@
+# Daily backup at 1am.
+0 1 * * * /home/cat/backup/backup.sh >/dev/null 2>&1
+
+# Copy previous backup to 'weekly' folder once a week at midnight.
+0 0 * * 0 /home/cat/backup/backup-weekly.sh >/dev/null 2>&1
+
+# Copy previous backup to 'monthly' folder once a month at midnight.
+0 0 1 * * /home/cat/backup/backup-monthly.sh >/dev/null 2>&1
