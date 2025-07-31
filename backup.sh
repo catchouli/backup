@@ -29,12 +29,12 @@ do
     echo "    Backing up database '$DBNAME'"
 
     # Create directory for database.
-    mkdir -p "databases/$DBNAME"
-    pushd "databases/$DBNAME" >/dev/null
+    mkdir -p databases
+    pushd databases >/dev/null
 
     # Back up database to .sql file.
-#    kubectl exec -it talkhaus-mysql-0 -- mysqldump --lock-tables=false --single-transaction=true \
-#	    -ubackup -p$MYSQL_PW "$DBNAME" > "$DBNAME.sql"
+    kubectl exec -it talkhaus-mysql-0 -- mysqldump --lock-tables=false --single-transaction=true \
+	    -ubackup -p$MYSQL_PW "$DBNAME" > "$DBNAME.sql"
 
     # Return to previous directory.
     popd >/dev/null
